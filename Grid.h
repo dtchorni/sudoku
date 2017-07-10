@@ -17,6 +17,8 @@ public:
 	Grid();
 	Grid(int,int);
 	void init(int diff);
+	void checkAvail(std::vector<int> &, int , int );
+
 	void print();
 	
 

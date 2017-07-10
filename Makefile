@@ -1,4 +1,4 @@
-CXX = g++
+CXX = g++ -std=c++11
  
 EXEC = sudoku
 OBJECTS = main.o Grid.o Tile.o 

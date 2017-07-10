@@ -4,11 +4,10 @@
 #include <iostream>
 
 
-class Tile{
+struct Tile{
 	int num;
 	int x,y;
 
-public:
 
 	Tile();
 	Tile(int,int,int);
