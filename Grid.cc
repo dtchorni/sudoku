@@ -1,9 +1,11 @@
+#include <cmath>
 #include "Grid.h"
+#include <algorithm>
 using namespace std;
 
 Grid::Grid(): height(0),width(0){}
 
-Grid::Grid(int w, int h):width(w),height(h){}
+Grid::Grid(int s):width(s*s),height(s*s){}
 
 int genNum(int s){ return rand() % s;}
 
@@ -17,25 +19,49 @@ int findVal(vector<int> &a, int num){
 	return -1;
 }
 
-void Grid::checkAvail(vector<int> &a, int x, int y){
-	int erased =1;
-	for(int i =0; i <=x; ++i){
-					
 
-		int toErase = findVal(a,numbers.at(2*i +y)->num);
-		if(toErase != -1) a.erase(a.begin() + toErase);
-		
-	}
+
+vector<int> Grid::generateFilledLine() {
+	vector<int> toReturn;
+	for(int i =0; i < width; ++i) toReturn.push_back(i);
+
+	return toReturn;
+
 }
 
+bool contains(vector<int> *v, int check){ return ((find(v->begin(), v->end(), check)) != (v->end())) ;}
 
+vector<int> Grid::availWidth(int x, int y) {
+	vector<int> curr = generateFilledLine();
+	for(int i=y*height; i < ((y*height)+x); ++i){
+		curr.erase(remove( curr.begin(), curr.end(), numbers.at(i)->num ), curr.end() );
+	}
+	return curr;
+}
+
+vector<int> Grid::availHeight(int x, int y) {
+	vector<int> curr = generateFilledLine();
+	for(int i=x; i < ((y*height)+x); (i+=height)){
+		curr.erase(remove( curr.begin(), curr.end(), numbers.at(i)->num ), curr.end() );
+	}
+	return curr;
+}
+
+vector<int> Grid::availSquare(int, int) {
+
+}
+
+vector<int> Grid::unionSet(std::vector<std::vector<int>>) {
+
+}
 
 void Grid::init(int diff){
 	int num;
 	for(int x=0; x<width; ++x){
+		vector<int> avail{1,2,3,4,5,6,7,8,9};
+
 		for(int y =0; y<height; ++y){
 			
-			vector<int> avail{1,2,3,4,5,6,7,8,9};
 			if(x!=0) { checkAvail(avail,x,y); }
 			num = genNum(avail.size());
 			cout<<"\n"<<num<<" "<<avail.size()<<endl;
@@ -50,10 +76,20 @@ void Grid::init(int diff){
 }
 
 void Grid::print(){
+	for(int i =0; i < (width*sqrt(width) - sqrt(width)); ++i) cout<<"_";
+	cout<<endl;
 	for(int i =0; i< numbers.size(); ++i){
 		numbers.at(i)->print();
-		cout<<"  ";
-		if((i+1)%9 == 0) cout<<"\n";
+		cout<<" ";
+		if((i+1)%(width) == 0) {
+			cout<<"\n";
+			int square = (int) ((width*sqrt(width)));
+			if((i+1)%square  == 0) {
+				for(int i =0; i < (width*sqrt(width) - sqrt(width)); ++i) cout<<"_";
+				cout<<endl;
+			}
+		}else if((i+1)%((int)sqrt(width))==0) cout<<" | ";
+
 	}
 	cout<<"\n\n";
 	/*for(int y=0; y<height; ++y){

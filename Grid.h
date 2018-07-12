@@ -15,9 +15,16 @@ class Grid{
 
 public:
 	Grid();
-	Grid(int,int);
+	Grid(int);
 	void init(int diff);
-	void checkAvail(std::vector<int> &, int , int );
+
+	std::vector<int> generateFilledLine();
+
+	std::vector<int> availHeight(int, int);
+	std::vector<int> availWidth(int, int);
+	std::vector<int> availSquare(int, int);
+
+	std::vector<int> unionSet(std::vector<std::vector<int>>);
 
 	void print();
 	
