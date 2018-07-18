@@ -10,10 +10,10 @@ using namespace std;
 
 int main(int argc, char *argv[]){
     srand(time(NULL));
-    Grid game(2);
-    cout<<"Trace back by how many steps? :";
+    cout<<"Size of Grid :";
     int diff;
     cin>>diff;
+    Grid game(diff);
     game.init(diff);
 
 

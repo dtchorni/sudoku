@@ -11,6 +11,7 @@ struct Tile{
 
 	Tile();
 	Tile(int,int,int);
+	void set(int,int,int);
 	void print();
 };
 

@@ -11,12 +11,17 @@
 
 class Grid{
 	int height, width;
-	std::vector<Tile*> numbers;
+	int square;
+    std::vector<Tile*> *numbers;
 
 public:
 	Grid();
-	Grid(int);
+	explicit Grid(int);
 	void init(int diff);
+
+    void clearSomething(int x, int y);
+    void clearSquare(int s);
+	std::vector<int> topLeftCorners;
 
 	std::vector<int> generateFilledLine();
 
@@ -24,7 +29,7 @@ public:
 	std::vector<int> availWidth(int, int);
 	std::vector<int> availSquare(int, int);
 
-	std::vector<int> unionSet(std::vector<std::vector<int>>);
+	std::vector<int> unionSet(std::vector<std::vector<int>> *);
 
 	void print();
 	
