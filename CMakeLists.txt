@@ -6,8 +6,6 @@ set(CMAKE_CXX_STANDARD 11)
 add_executable(sudoku
         Grid.cc
         Grid.h
-        main.cc
         NumberRef.h
-        sudoku.h
         Tile.cc
-        Tile.h)
+        Tile.h Sudoku.cpp Sudoku.hpp Filler.cpp Filler.hpp main.cpp)
