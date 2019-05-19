@@ -35,6 +35,12 @@ Sudoku::Sudoku(int s):size(s*s),sq_size(s) {
         }
         ++b;
     }
+    for(int k =0; k<s; ++k){
+        int first = k*pow(s,3);
+        for(int i = first; i < first+ pow(s,2); i+=s){
+            topLeftCorners.push_back(i);
+        }
+    }
 }
 
 void Sudoku::print() {
@@ -84,4 +90,68 @@ bool Sudoku::validateAll() {
     }
 
     return true;
+}
+
+std::vector<int> Sudoku::generateFilledLine() {
+    std::vector<int> toReturn;
+    for(int i =1; i <= size; ++i) toReturn.push_back(i);
+
+    return toReturn;
+
+}
+
+bool contains(std::vector<int> *v, int check){ return ((find(v->begin(), v->end(), check)) != (v->end())) ;}
+
+std::vector<int> Sudoku::availWidth(int r) {
+    std::vector<int> avail = generateFilledLine();
+    for(auto i : row.at(r)){
+        if(i) avail.erase(remove(avail.begin(),avail.end(),*i),avail.end());
+    }
+    return avail;
+}
+
+std::vector<int> Sudoku::availHeight(int c) {
+    std::vector<int> avail = generateFilledLine();
+    for(auto i : col.at(c)){
+        if(i) avail.erase(remove(avail.begin(),avail.end(),*i),avail.end());
+    }
+    return avail;
+}
+
+std::vector<int> Sudoku::availSquare(int s) {
+    std::vector<int> avail = generateFilledLine();
+    for(auto i : box.at(s)){
+        if(i) avail.erase(remove(avail.begin(),avail.end(),*i),avail.end());
+    }
+    return avail;
+}
+
+std::vector<int> Sudoku::unionSet(std::vector<std::vector<int>> *l) {
+    std::vector<int> set = generateFilledLine();
+
+    for( std::vector<int>::iterator a = set.begin(); a!=set.end(); ++a ){
+        bool unions = false;
+        for(auto b : *l){
+            if(contains(&b,*a)) unions=true;
+            else{
+                unions=false;
+                break;
+            }
+        }
+        if(!unions){
+            set.erase(a);
+            --a;
+        }
+    }
+
+    return set;
+}
+
+std::vector<int> Sudoku::getAvailAt(int x, int y) {
+    assert(x<=size && y <= size);
+    std::vector<std::vector<int>> avail;
+    avail.push_back(availHeight(y));
+    avail.push_back(availWidth(x));
+    avail.push_back(availSquare())
+
 }

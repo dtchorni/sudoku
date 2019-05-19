@@ -8,4 +8,4 @@ add_executable(sudoku
         Grid.h
         NumberRef.h
         Tile.cc
-        Tile.h Sudoku.cpp Sudoku.hpp Filler.cpp Filler.hpp main.cpp)
+        Tile.h Sudoku.cpp Sudoku.hpp Filler.cpp Filler.hpp main.cpp EntangledPair.cpp EntangledPair.hpp)

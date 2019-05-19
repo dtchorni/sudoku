@@ -38,3 +38,19 @@ bool CorrectRandomFill::populateGame() {
     }
     return true;
 }
+
+bool EntangledFill::populateGame(){
+    for(int i = 0; i < game->getSize(); ++i){
+
+    }
+    return true;
+
+}
+
+bool DiagonalFill::populateGame() {
+    for(int d = 0; d < game->getSqSize()*game->getSqSize(); d++){
+        for(int x=d; x>=0; --x){
+
+        }
+    }
+}

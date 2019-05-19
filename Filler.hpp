@@ -6,6 +6,7 @@
 #define SUDOKU_FILLER_HPP
 
 
+#include "EntangledPair.hpp"
 #include "Sudoku.hpp"
 
 class Filler {
@@ -34,7 +35,19 @@ public:
 
     RandomFill(Sudoku *s) : Filler(s) {}
 
-    bool populateGame() override;
+    virtual bool populateGame() override;
+};
+
+class EntangledFill : public Filler {
+    std::vector<Entangled *> pairs;
+
+public:
+    EntangledFill(int s) : Filler(s) {}
+
+    EntangledFill(Sudoku *s) : Filler(s) {}
+
+    virtual bool populateGame() override;
+
 };
 
 class CorrectRandomFill : public Filler{
@@ -43,6 +56,15 @@ public:
     CorrectRandomFill(Sudoku *s) : Filler(s) {}
 
     bool populateGame() override;
+};
+
+class DiagonalFill : public Filler {
+public:
+    DiagonalFill(int s) : Filler(s) {}
+    DiagonalFill(Sudoku *s) : Filler(s) {}
+
+    bool populateGame() override;
+};
 };
 
 #endif //SUDOKU_FILLER_HPP
