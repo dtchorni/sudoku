@@ -22,16 +22,23 @@ int main(){
     g1->check() ? std::cout<<"Yes" : std::cout<<"No";
     std::cout<<std::endl;
 
-    Filler *g2 = new CorrectRandomFill(size);
+    Filler *g2 = new NumberFill(size);
 
-    std::cout<<"Generating a correct random filling ..."<<std::endl;
+    g2->populateGame();
+
+    std::cout<<"Finished processing game"<<std::endl;
+    std::cout<<"Valid game? ";
+    g2->check() ? std::cout<<"Yes" : std::cout<<"No";
+    std::cout<<std::endl;
+
+    /*std::cout<<"Generating a correct random filling ..."<<std::endl;
     g2->populateGame();
 
 
     std::cout<<"Finished processing game"<<std::endl;
     std::cout<<"Valid game? ";
     g2->check() ? std::cout<<"Yes" : std::cout<<"No";
-    std::cout<<std::endl;
+    std::cout<<std::endl;*/
 
     delete g1;
     delete g2;

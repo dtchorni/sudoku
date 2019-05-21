@@ -26,7 +26,7 @@ Sudoku::Sudoku(int s):size(s*s),sq_size(s) {
     }
     int b =0;
     while(b<size){
-        int start_row = b/sq_size;
+        int start_row = (b/sq_size)*sq_size;
         int start_col = (b%sq_size)*sq_size;
         for(int i = start_row; i < start_row+sq_size; ++i){
             for(int j= start_col; j < start_col+sq_size; ++j){
@@ -105,7 +105,7 @@ bool contains(std::vector<int> *v, int check){ return ((find(v->begin(), v->end(
 std::vector<int> Sudoku::availWidth(int r) {
     std::vector<int> avail = generateFilledLine();
     for(auto i : row.at(r)){
-        if(i) avail.erase(remove(avail.begin(),avail.end(),*i),avail.end());
+        if(i || i!=0) avail.erase(remove(avail.begin(),avail.end(),*i),avail.end());
     }
     return avail;
 }
@@ -113,7 +113,7 @@ std::vector<int> Sudoku::availWidth(int r) {
 std::vector<int> Sudoku::availHeight(int c) {
     std::vector<int> avail = generateFilledLine();
     for(auto i : col.at(c)){
-        if(i) avail.erase(remove(avail.begin(),avail.end(),*i),avail.end());
+        if(i || i!=0) avail.erase(remove(avail.begin(),avail.end(),*i),avail.end());
     }
     return avail;
 }
@@ -121,17 +121,17 @@ std::vector<int> Sudoku::availHeight(int c) {
 std::vector<int> Sudoku::availSquare(int s) {
     std::vector<int> avail = generateFilledLine();
     for(auto i : box.at(s)){
-        if(i) avail.erase(remove(avail.begin(),avail.end(),*i),avail.end());
+        if(i || i!=0) avail.erase(remove(avail.begin(),avail.end(),*i),avail.end());
     }
     return avail;
 }
 
-std::vector<int> Sudoku::unionSet(std::vector<std::vector<int>> *l) {
+std::vector<int> Sudoku::unionSet(std::vector<std::vector<int>> l) {
     std::vector<int> set = generateFilledLine();
 
     for( std::vector<int>::iterator a = set.begin(); a!=set.end(); ++a ){
         bool unions = false;
-        for(auto b : *l){
+        for(auto b : l){
             if(contains(&b,*a)) unions=true;
             else{
                 unions=false;
@@ -147,11 +147,16 @@ std::vector<int> Sudoku::unionSet(std::vector<std::vector<int>> *l) {
     return set;
 }
 
+int Sudoku::findSquare(int x,int y){
+    return x/sq_size + (sq_size*(y/sq_size));
+}
+
 std::vector<int> Sudoku::getAvailAt(int x, int y) {
     assert(x<=size && y <= size);
     std::vector<std::vector<int>> avail;
     avail.push_back(availHeight(y));
     avail.push_back(availWidth(x));
-    avail.push_back(availSquare())
+    avail.push_back(availSquare(findSquare(y,x)));
+    return unionSet(avail);
 
 }

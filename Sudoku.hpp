@@ -19,7 +19,7 @@ class Sudoku {
     std::vector<int> availWidth(int);
     std::vector<int> availSquare(int);
 
-    std::vector<int> unionSet(std::vector<std::vector<int>> *);
+    std::vector<int> unionSet(std::vector<std::vector<int>> );
 
     std::vector<int> topLeftCorners;
 

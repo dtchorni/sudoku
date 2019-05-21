@@ -18,7 +18,7 @@ struct Entangled{
     Point * p;
     std::vector<Entangled *> next;
 
-    Entangled(Point p, std::vector<Entangled *> next) : p(p), next(next) {}
+    Entangled(Point *p, std::vector<Entangled *> next) : p(p), next(next) {}
 
     ~Entangled(){
         delete p;

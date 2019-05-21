@@ -24,7 +24,7 @@ public:
 
     bool check() { return game->validateAll(); }
 
-    ~Filler(){ delete game; }
+    ~Filler() { delete game; }
 };
 
 
@@ -50,21 +50,57 @@ public:
 
 };
 
-class CorrectRandomFill : public Filler{
+class CorrectRandomFill : public Filler {
 public:
     CorrectRandomFill(int s) : Filler(s) {}
+
     CorrectRandomFill(Sudoku *s) : Filler(s) {}
 
     bool populateGame() override;
 };
 
-class DiagonalFill : public Filler {
+class DiagonalOutwardFill : public Filler {
 public:
-    DiagonalFill(int s) : Filler(s) {}
-    DiagonalFill(Sudoku *s) : Filler(s) {}
+    DiagonalOutwardFill(int s) : Filler(s) {}
+
+    DiagonalOutwardFill(Sudoku *s) : Filler(s) {}
 
     bool populateGame() override;
 };
+
+class DiagonalInwardFill : public Filler {
+public:
+    DiagonalInwardFill(int s) : Filler(s) {}
+
+    DiagonalInwardFill(Sudoku *s) : Filler(s) {}
+
+    bool populateGame() override;
 };
+
+class DiagonalWaveFill : public Filler {
+public:
+    DiagonalWaveFill(int s) : Filler(s) {}
+
+    DiagonalWaveFill(Sudoku *s) : Filler(s) {}
+
+    bool populateGame() override;
+};
+
+class NumberFill : public Filler{
+    std::vector<std::pair<int,int>> positions;
+public:
+    NumberFill(int s) : Filler(s) {
+        for(int x =0; x< game->getSize(); ++x){
+            for( int y=0; y < game->getSize(); ++y){
+                positions.push_back(std::pair<int,int>(x,y));
+            }
+        }
+    }
+    NumberFill(Sudoku *s) : Filler(s) {}
+
+    bool populateGame() override;
+};
+
+
 
 #endif //SUDOKU_FILLER_HPP
