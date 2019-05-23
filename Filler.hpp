@@ -38,6 +38,7 @@ public:
     virtual bool populateGame() override;
 };
 
+//TODO: implement this
 class EntangledFill : public Filler {
     std::vector<Entangled *> pairs;
 
@@ -76,7 +77,7 @@ public:
 
     bool populateGame() override;
 };
-
+//TODO: implement this vvvv
 class DiagonalWaveFill : public Filler {
 public:
     DiagonalWaveFill(int s) : Filler(s) {}
@@ -86,21 +87,21 @@ public:
     bool populateGame() override;
 };
 
-class NumberFill : public Filler{
-    std::vector<std::pair<int,int>> positions;
+class NumberFill : public Filler {
+    std::vector<std::pair<int, int>> positions;
 public:
     NumberFill(int s) : Filler(s) {
-        for(int x =0; x< game->getSize(); ++x){
-            for( int y=0; y < game->getSize(); ++y){
-                positions.push_back(std::pair<int,int>(x,y));
+        for (int x = 0; x < game->getSize(); ++x) {
+            for (int y = 0; y < game->getSize(); ++y) {
+                positions.push_back(std::pair<int, int>(x, y));
             }
         }
     }
+
     NumberFill(Sudoku *s) : Filler(s) {}
 
     bool populateGame() override;
 };
-
 
 
 #endif //SUDOKU_FILLER_HPP

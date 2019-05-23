@@ -64,7 +64,7 @@ bool DiagonalOutwardFill::populateGame() {
         }
         for (int x = d % game->getSqSize() == 0 ? d - 1 : d; x >= 0; --x) {
             std::vector<int> avail = game->getAvailAt(x, d);
-            if(avail.empty()) return false;
+            if (avail.empty()) return false;
             game->findAndPlaceNumber(x, d,
                                      avail.size() == 1 ? avail.at(0) :
                                      avail.at(genRand(avail.size())));
@@ -72,7 +72,7 @@ bool DiagonalOutwardFill::populateGame() {
         }
         for (int y = d - 1; y >= 0; --y) {
             std::vector<int> avail = game->getAvailAt(d, y);
-            if(avail.empty()) return false;
+            if (avail.empty()) return false;
             game->findAndPlaceNumber(d, y,
                                      avail.size() == 1 ? avail.at(0) :
                                      avail.at(genRand(avail.size())));
@@ -87,23 +87,23 @@ bool DiagonalInwardFill::populateGame() {
     std::vector<int> avail;
     for (int d = 0; d < game->getSqSize() * game->getSqSize(); d++) {
 
-        for(int i =0; i < d; ++i){
-            avail = game-> getAvailAt(i,d);
-            if(avail.empty()) return false;
-            game->findAndPlaceNumber(i, d,  avail.size() == 1 ? avail.at(0) :
-                                            avail.at(genRand(avail.size())));
+        for (int i = 0; i < d; ++i) {
+            avail = game->getAvailAt(i, d);
+            if (avail.empty()) return false;
+            game->findAndPlaceNumber(i, d, avail.size() == 1 ? avail.at(0) :
+                                           avail.at(genRand(avail.size())));
             game->print();
-            avail = game-> getAvailAt(d,i);
-            if(avail.empty()) return false;
-            game->findAndPlaceNumber(d, i,  avail.size() == 1 ? avail.at(0) :
-                                            avail.at(genRand(avail.size())));
+            avail = game->getAvailAt(d, i);
+            if (avail.empty()) return false;
+            game->findAndPlaceNumber(d, i, avail.size() == 1 ? avail.at(0) :
+                                           avail.at(genRand(avail.size())));
             game->print();
 
         }
-        avail = game->getAvailAt(d,d);
-        if(avail.empty()) return false;
-        game->findAndPlaceNumber(d, d,  avail.size() == 1 ? avail.at(0) :
-                                        avail.at(genRand(avail.size())));
+        avail = game->getAvailAt(d, d);
+        if (avail.empty()) return false;
+        game->findAndPlaceNumber(d, d, avail.size() == 1 ? avail.at(0) :
+                                       avail.at(genRand(avail.size())));
         game->print();
 
 
@@ -120,7 +120,7 @@ bool DiagonalWaveFill::populateGame() {
         }
         for (int x = d % game->getSqSize() == 0 ? d - 1 : d; x >= 0; --x) {
             std::vector<int> avail = game->getAvailAt(x, d);
-            if(avail.empty()) return false;
+            if (avail.empty()) return false;
             game->findAndPlaceNumber(x, d,
                                      avail.size() == 1 ? avail.at(0) :
                                      avail.at(genRand(avail.size())));
@@ -128,7 +128,7 @@ bool DiagonalWaveFill::populateGame() {
         }
         for (int y = d - 1; y >= 0; --y) {
             std::vector<int> avail = game->getAvailAt(d, y);
-            if(avail.empty()) return false;
+            if (avail.empty()) return false;
             game->findAndPlaceNumber(d, y,
                                      avail.size() == 1 ? avail.at(0) :
                                      avail.at(genRand(avail.size())));
@@ -141,16 +141,16 @@ bool DiagonalWaveFill::populateGame() {
 
 
 bool NumberFill::populateGame() {
-    for(int i=0; i < game->getSize(); ++i) {
+    for (int i = 0; i < game->getSize(); ++i) {
         std::vector<int> avail = {};
         for (int count = 0; count < game->getSize(); ++count) {
             while (true) {
                 int ind = genRand(positions.size());
                 std::pair<int, int> point = positions.at(ind);
                 avail = game->getAvailAt(point.first, point.second);
-                if (std::find(avail.begin(), avail.end(), i + 1) != avail.end()){
-                    game->findAndPlaceNumber(point.first,point.second,i+1);
-                    positions.erase(positions.begin()+ind);
+                if (std::find(avail.begin(), avail.end(), i + 1) != avail.end()) {
+                    game->findAndPlaceNumber(point.first, point.second, i + 1);
+                    positions.erase(positions.begin() + ind);
                     game->print();
                     break;
                 }

@@ -4,5 +4,4 @@ project(sudoku)
 set(CMAKE_CXX_STANDARD 11)
 
 add_executable(sudoku
-        NumberRef.h
         Sudoku.cpp Sudoku.hpp Filler.cpp Filler.hpp main.cpp EntangledPair.cpp EntangledPair.hpp)

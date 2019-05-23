@@ -6,30 +6,41 @@
 #include "Sudoku.hpp"
 #include "Filler.hpp"
 
-int main(){
-    std::cout<<"Enter the square size of the sudoku grid: ";
+
+//TODO: Implement step back infrastructure to easily correct errors
+//TODO: Implement a better UI
+//TODO: Create command line arguments to facilitate scripts
+//TODO: Ensure there is a verbosity option
+//TODO: Create an export method
+//TODO: Do an analysis on all algorithms implemented, perhaps create a suite to do this within the program
+//TODO: would be interesting to attempt to export each step of generation into a gif or video
+//TODO: DOCUMENT
+
+
+int main() {
+    std::cout << "Enter the square size of the sudoku grid: ";
     int size;
-    std::cin>>size;
-    std::cout<<std::endl<<"Generating a random fill ..."<<std::endl;
+    std::cin >> size;
+    std::cout << std::endl << "Generating a random fill ..." << std::endl;
 
     Filler *g1 = new RandomFill(size);
 
     g1->populateGame();
 
 
-    std::cout<<"Finished processing game"<<std::endl;
-    std::cout<<"Valid game? ";
-    g1->check() ? std::cout<<"Yes" : std::cout<<"No";
-    std::cout<<std::endl;
+    std::cout << "Finished processing game" << std::endl;
+    std::cout << "Valid game? ";
+    g1->check() ? std::cout << "Yes" : std::cout << "No";
+    std::cout << std::endl;
 
     Filler *g2 = new NumberFill(size);
 
     g2->populateGame();
 
-    std::cout<<"Finished processing game"<<std::endl;
-    std::cout<<"Valid game? ";
-    g2->check() ? std::cout<<"Yes" : std::cout<<"No";
-    std::cout<<std::endl;
+    std::cout << "Finished processing game" << std::endl;
+    std::cout << "Valid game? ";
+    g2->check() ? std::cout << "Yes" : std::cout << "No";
+    std::cout << std::endl;
 
     /*std::cout<<"Generating a correct random filling ..."<<std::endl;
     g2->populateGame();

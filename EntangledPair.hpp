@@ -9,21 +9,24 @@
 #include <utility>
 #include <vector>
 
+//TODO: properly implement these
+
 struct Point {
-    int val,x,y;
-    Point(int v, int a, int b):val(v),x(a),y(b) {}
+    int val, x, y;
+
+    Point(int v, int a, int b) : val(v), x(a), y(b) {}
 };
 
-struct Entangled{
-    Point * p;
+struct Entangled {
+    Point *p;
     std::vector<Entangled *> next;
 
     Entangled(Point *p, std::vector<Entangled *> next) : p(p), next(next) {}
 
-    ~Entangled(){
+    ~Entangled() {
         delete p;
-        for(auto pair : next){
-            if(pair) delete pair;
+        for (auto pair : next) {
+            if (pair) delete pair;
         }
     }
 };
