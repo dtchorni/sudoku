@@ -5,6 +5,7 @@
 
 #include "Sudoku.hpp"
 #include "Filler.hpp"
+#include "Arguments.hpp"
 
 
 //TODO: Implement step back infrastructure to easily correct errors
@@ -16,8 +17,20 @@
 //TODO: would be interesting to attempt to export each step of generation into a gif or video
 //TODO: DOCUMENT
 
+Arguments args = Arguments();
 
-int main() {
+void dialogue(){
+    std::cout<<"Sudoku Generator "<< args.version <<
+               "\n Flags: \n"
+               "\t-h : print dialogue\n"
+               "\t-v : verbose printing\n"
+               "\t-s : size of single square of sudoku grid\n"
+               "\t-a [n] : algorithm option (please see the README for options)"<<std::endl;
+}
+
+
+
+int main(int c, char * v[]) {
     std::cout << "Enter the square size of the sudoku grid: ";
     int size;
     std::cin >> size;
