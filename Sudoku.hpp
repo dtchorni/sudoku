@@ -7,10 +7,12 @@
 
 
 #include <vector>
+#include <stack>
 
 class Sudoku {
     int size;
     int sq_size;
+    std::stack<std::pair<int,std::pair<int,int>>> history;
     std::vector<std::vector<int *>> game;
 
     std::vector<int> generateFilledLine();

@@ -44,11 +44,21 @@ Sudoku::Sudoku(int s) : size(s * s), sq_size(s) {
 }
 
 void Sudoku::print() {
+    int lastX = history.top().second.first;
+    int lastY = history.top().second.second;
+    int lastVal = history.top().first;
+    std::cout << "Last Point at X=" << lastX+1 << ", Y=" << lastY+1 << ", with value: " << lastVal << "\n" << std::endl;
     for (int i = 0; i < size; ++i) {
         for (int j = 0; j < size; ++j) {
             std::cout << "\t";
             if ((j) % sq_size == 0) std::cout << "\t";
-            std::cout << *game[i][j];
+            if(i==lastX && j==lastY){
+                printf("%c[1m",27);  /*- turn on bold */
+                printf("%c[4m",27);  /*- turn on underline */
+                std::cout << *game[i][j];
+                printf("%c[0m",27); /* turn off formatting */
+
+            }else std::cout << *game[i][j];
 
         }
         std::cout << std::endl;
@@ -63,6 +73,7 @@ bool Sudoku::findAndPlaceNumber(int x, int y, int val) {
     int *curr = (game.at(x).at(y));
     if (*curr == 0) {
         *curr = val;
+        history.push(std::pair<int, std::pair<int, int>>(val, std::pair<int, int>(x, y)));
         return true;
     } else {
         return false;

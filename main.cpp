@@ -19,52 +19,28 @@
 
 Arguments args = Arguments();
 
-void dialogue(){
-    std::cout<<"Sudoku Generator "<< args.version <<
-               "\n Flags: \n"
-               "\t-h : print dialogue\n"
-               "\t-v : verbose printing\n"
-               "\t-s : size of single square of sudoku grid\n"
-               "\t-a [n] : algorithm option (please see the README for options)"<<std::endl;
-}
 
+int main(int c, char **v) {
+    args.setArgs(c, v);
 
+    Filler *game;
 
-int main(int c, char * v[]) {
-    std::cout << "Enter the square size of the sudoku grid: ";
-    int size;
-    std::cin >> size;
-    std::cout << std::endl << "Generating a random fill ..." << std::endl;
+    switch (args.algorithm) {
+        case (1):
+            game = new DiagonalOutwardFill(args.sqSize);
+        case (2):
+            game = new DiagonalInwardFill(args.sqSize);
+        case (3):
+            game = new NumberFill(args.sqSize);
+        default:
+            game = new RandomFill(args.sqSize);
+    }
 
-    Filler *g1 = new RandomFill(size);
+    game->populateGame();
 
-    g1->populateGame();
+    game->print();
 
+    delete game;
 
-    std::cout << "Finished processing game" << std::endl;
-    std::cout << "Valid game? ";
-    g1->check() ? std::cout << "Yes" : std::cout << "No";
-    std::cout << std::endl;
-
-    Filler *g2 = new NumberFill(size);
-
-    g2->populateGame();
-
-    std::cout << "Finished processing game" << std::endl;
-    std::cout << "Valid game? ";
-    g2->check() ? std::cout << "Yes" : std::cout << "No";
-    std::cout << std::endl;
-
-    /*std::cout<<"Generating a correct random filling ..."<<std::endl;
-    g2->populateGame();
-
-
-    std::cout<<"Finished processing game"<<std::endl;
-    std::cout<<"Valid game? ";
-    g2->check() ? std::cout<<"Yes" : std::cout<<"No";
-    std::cout<<std::endl;*/
-
-    delete g1;
-    delete g2;
     return 0;
 }
