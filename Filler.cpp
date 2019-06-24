@@ -35,7 +35,7 @@ void RandomFill::populateGame() {
                 delete game;
                 game = new Sudoku(args.sqSize);
             } else break;
-        }
+        }else break;
     }
 }
 
@@ -111,7 +111,7 @@ void DiagonalOutwardFill::populateGame() {
                 delete game;
                 game = new Sudoku(args.sqSize);
             } else break;
-        }
+        }else break;
     }
 }
 
@@ -153,7 +153,7 @@ void DiagonalInwardFill::populateGame() {
                 delete game;
                 game = new Sudoku(args.sqSize);
             } else break;
-        }
+        }else break;
     }
 }
 
@@ -211,6 +211,6 @@ void NumberFill::populateGame() {
                 delete game;
                 game = new Sudoku(args.sqSize);
             } else break;
-        }
+        }else break;
     }
 }

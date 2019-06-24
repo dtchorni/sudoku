@@ -109,4 +109,16 @@ public:
     void populateGame() override;
 };
 
+struct Tile{
+    int x;
+    int y;
+    int val;
+    Tile(int a,int b int c) : x(a), y(b) , val(c);
+};
+
+class FillerWithTrace : public Filler{
+protected:
+    std::vector<Tile>
+};
+
 #endif //SUDOKU_FILLER_HPP
