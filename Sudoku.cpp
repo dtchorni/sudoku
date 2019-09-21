@@ -7,6 +7,7 @@
 #include <algorithm>
 #include <cassert>
 #include "Sudoku.hpp"
+#include "Arguments.hpp"
 
 Sudoku::Sudoku(int s) : size(s * s), sq_size(s) {
     for (int i = 0; i < size; ++i) {
@@ -44,11 +45,22 @@ Sudoku::Sudoku(int s) : size(s * s), sq_size(s) {
 }
 
 void Sudoku::print() {
+    int lastX = getLastTile().x;
+    int lastY = getLastTile().y;
+    int lastVal = getLastTile().val;
+    std::cout << "Last Point at X=" << lastX + 1 << ", Y=" << lastY + 1 << ", with value: " << lastVal << "\n"
+              << std::endl;
     for (int i = 0; i < size; ++i) {
         for (int j = 0; j < size; ++j) {
             std::cout << "\t";
             if ((j) % sq_size == 0) std::cout << "\t";
-            std::cout << *game[i][j];
+            if (i == lastX && j == lastY) {
+                printf("%c[1m", 27);  /*- turn on bold */
+                printf("%c[4m", 27);  /*- turn on underline */
+                std::cout << *game[i][j];
+                printf("%c[0m", 27); /* turn off formatting */
+
+            } else std::cout << *game[i][j];
 
         }
         std::cout << std::endl;
@@ -63,10 +75,23 @@ bool Sudoku::findAndPlaceNumber(int x, int y, int val) {
     int *curr = (game.at(x).at(y));
     if (*curr == 0) {
         *curr = val;
+        history.emplace_back(Tile(x, y, val));
         return true;
     } else {
         return false;
     }
+}
+
+void Sudoku::findAndRemoveNumber(int x, int y, int val, int i) {
+    assert(i < history.size() && i>=0);
+    int *curr = game.at(x).at(y);
+    *curr = 0;
+    history.erase(history.begin()+i);
+    if(args.verbose){
+        std::cout<<"Removed "<<val<<" at x="<<x<<" and y="<<y<<std::endl;
+        print();
+    }
+
 }
 
 bool Sudoku::validateSingle(const std::vector<int *> ob) {
@@ -89,6 +114,29 @@ bool Sudoku::validateAll() {
     }
     for (auto b : box) {
         if (!validateSingle(b)) return false;
+    }
+
+    return true;
+}
+
+bool Sudoku::validatePartialSingle(const std::vector<int *> ob) {
+    std::vector<int> elements;
+    for (auto e : ob) {
+        if (std::find(elements.begin(), elements.end(), *e) != elements.end()) return false;
+        if(*e!=0) elements.push_back(*e);
+    }
+    return true;
+}
+
+bool Sudoku::validatePartial() {
+    for (auto c : col) {
+        if (!validatePartialSingle(c)) return false;
+    }
+    for (auto r : row) {
+        if (!validatePartialSingle(r)) return false;
+    }
+    for (auto b : box) {
+        if (!validatePartialSingle(b)) return false;
     }
 
     return true;
@@ -162,3 +210,21 @@ std::vector<int> Sudoku::getAvailAt(int x, int y) {
     return unionSet(avail);
 
 }
+
+
+
+Tile Sudoku::getFirstTile() {
+    assert(history.size() > 0);
+    return history.at(0);
+}
+
+Tile Sudoku::getLastTile() {
+    assert(history.size() > 0);
+    return history.at(history.size()-1);
+}
+
+Tile Sudoku::getTileAt(int i) {
+    assert(history.size() > 0 && i<history.size() && i>=0);
+    return history.at(i);
+}
+

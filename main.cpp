@@ -5,6 +5,8 @@
 
 #include "Sudoku.hpp"
 #include "Filler.hpp"
+#include "Arguments.hpp"
+#include "Tracer.hpp"
 
 
 //TODO: Implement step back infrastructure to easily correct errors
@@ -16,42 +18,48 @@
 //TODO: would be interesting to attempt to export each step of generation into a gif or video
 //TODO: DOCUMENT
 
-
-int main() {
-    std::cout << "Enter the square size of the sudoku grid: ";
-    int size;
-    std::cin >> size;
-    std::cout << std::endl << "Generating a random fill ..." << std::endl;
-
-    Filler *g1 = new RandomFill(size);
-
-    g1->populateGame();
+Arguments args = Arguments();
 
 
-    std::cout << "Finished processing game" << std::endl;
-    std::cout << "Valid game? ";
-    g1->check() ? std::cout << "Yes" : std::cout << "No";
-    std::cout << std::endl;
+int main(int c, char **v) {
+    args.setArgs(c, v);
 
-    Filler *g2 = new NumberFill(size);
+    Sudoku *game = new Sudoku(args.sqSize);
 
-    g2->populateGame();
+    Tracer *tracer;
 
-    std::cout << "Finished processing game" << std::endl;
-    std::cout << "Valid game? ";
-    g2->check() ? std::cout << "Yes" : std::cout << "No";
-    std::cout << std::endl;
+    switch (args.tracer) {
+        case (1) :
+            tracer = new LIFOtrace(game);
+            break;
+        case(2):
+            tracer = new MatchNumberTrace(game);
+            break;
+        default:
+            tracer = new FIFOtrace(game);
+    }
 
-    /*std::cout<<"Generating a correct random filling ..."<<std::endl;
-    g2->populateGame();
+    Filler *filler;
 
+    switch (args.algorithm) {
+        case (1):
+            filler = new DiagonalOutwardFill(game, tracer);
+            break;
+        case (2):
+            filler = new DiagonalInwardFill(game, tracer);
+            break;
+        case (3):
+            filler = new NumberFill(game, tracer);
+            break;
+        default:
+            filler = new RandomFill(game, tracer);
+    }
 
-    std::cout<<"Finished processing game"<<std::endl;
-    std::cout<<"Valid game? ";
-    g2->check() ? std::cout<<"Yes" : std::cout<<"No";
-    std::cout<<std::endl;*/
+    filler->populateGame();
 
-    delete g1;
-    delete g2;
+    game->print();
+
+    delete game;
+
     return 0;
 }
