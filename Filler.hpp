@@ -8,17 +8,19 @@
 
 #include "EntangledPair.hpp"
 #include "Sudoku.hpp"
+#include "Tracer.hpp"
+
 
 class Filler {
 protected:
     Sudoku *game;
     int filled = 0;
-
-
+    Tracer *tracer;
+    
 public:
-    Filler(int s) : game(new Sudoku(s)) {}
+//    Filler(int s, Tracer *t) : game(new Sudoku(s)), tracer(t) {}
 
-    Filler(Sudoku *s) : game(s) {}
+    Filler(Sudoku *s, Tracer *t) : game(s), tracer(t) {}
 
     virtual void populateGame() = 0; // void return value: populateGame() filled the grid completely
 
@@ -31,9 +33,8 @@ public:
 class RandomFill : public Filler {
 
 public:
-    RandomFill(int s) : Filler(s) {}
 
-    RandomFill(Sudoku *s) : Filler(s) {}
+    RandomFill(Sudoku *s, Tracer *t) : Filler(s,t) {}
 
     virtual void populateGame() override;
 };
@@ -42,9 +43,8 @@ public:
 //Deprecated with reset flag
 class CorrectRandomFill : public Filler {
 public:
-    CorrectRandomFill(int s) : Filler(s) {}
 
-    CorrectRandomFill(Sudoku *s) : Filler(s) {}
+    CorrectRandomFill(Sudoku *s, Tracer *t) : Filler(s,t) {}
 
     void populateGame() override;
 };
@@ -52,9 +52,8 @@ public:
 //Algorithm 1:
 class DiagonalOutwardFill : public Filler {
 public:
-    DiagonalOutwardFill(int s) : Filler(s) {}
 
-    DiagonalOutwardFill(Sudoku *s) : Filler(s) {}
+    DiagonalOutwardFill(Sudoku *s, Tracer *t) : Filler(s,t) {}
 
     void populateGame() override;
 };
@@ -62,9 +61,8 @@ public:
 //Algorithm 2:
 class DiagonalInwardFill : public Filler {
 public:
-    DiagonalInwardFill(int s) : Filler(s) {}
 
-    DiagonalInwardFill(Sudoku *s) : Filler(s) {}
+    DiagonalInwardFill(Sudoku *s, Tracer *t) : Filler(s,t) {}
 
     void populateGame() override;
 };
@@ -72,16 +70,17 @@ public:
 //Algorithm 3:
 class NumberFill : public Filler {
     std::vector<std::pair<int, int>> positions;
+    std::vector<int> counts;
 public:
-    NumberFill(int s) : Filler(s) {
+
+    NumberFill(Sudoku *s, Tracer *t) : Filler(s,t) {
         for (int x = 0; x < game->getSize(); ++x) {
             for (int y = 0; y < game->getSize(); ++y) {
                 positions.push_back(std::pair<int, int>(x, y));
             }
         }
+        counts = std::vector<int>(game->getSize());
     }
-
-    NumberFill(Sudoku *s) : Filler(s) {}
 
     void populateGame() override;
 };
@@ -91,9 +90,8 @@ class EntangledFill : public Filler {
     std::vector<Entangled *> pairs;
 
 public:
-    EntangledFill(int s) : Filler(s) {}
 
-    EntangledFill(Sudoku *s) : Filler(s) {}
+    EntangledFill(Sudoku *s, Tracer *t) : Filler(s,t) {}
 
     virtual void populateGame() override;
 
@@ -102,23 +100,13 @@ public:
 //TODO: implement this vvvv
 class DiagonalWaveFill : public Filler {
 public:
-    DiagonalWaveFill(int s) : Filler(s) {}
 
-    DiagonalWaveFill(Sudoku *s) : Filler(s) {}
+    DiagonalWaveFill(Sudoku *s, Tracer *t) : Filler(s,t) {}
 
     void populateGame() override;
 };
 
-struct Tile{
-    int x;
-    int y;
-    int val;
-    Tile(int a,int b int c) : x(a), y(b) , val(c);
-};
 
-class FillerWithTrace : public Filler{
-protected:
-    std::vector<Tile>
-};
+
 
 #endif //SUDOKU_FILLER_HPP

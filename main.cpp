@@ -6,6 +6,7 @@
 #include "Sudoku.hpp"
 #include "Filler.hpp"
 #include "Arguments.hpp"
+#include "Tracer.hpp"
 
 
 //TODO: Implement step back infrastructure to easily correct errors
@@ -23,20 +24,38 @@ Arguments args = Arguments();
 int main(int c, char **v) {
     args.setArgs(c, v);
 
-    Filler *game;
+    Sudoku *game = new Sudoku(args.sqSize);
+
+    Tracer *tracer;
+
+    switch (args.tracer) {
+        case (1) :
+            tracer = new LIFOtrace(game);
+            break;
+        case(2):
+            tracer = new MatchNumberTrace(game);
+            break;
+        default:
+            tracer = new FIFOtrace(game);
+    }
+
+    Filler *filler;
 
     switch (args.algorithm) {
         case (1):
-            game = new DiagonalOutwardFill(args.sqSize);
+            filler = new DiagonalOutwardFill(game, tracer);
+            break;
         case (2):
-            game = new DiagonalInwardFill(args.sqSize);
+            filler = new DiagonalInwardFill(game, tracer);
+            break;
         case (3):
-            game = new NumberFill(args.sqSize);
+            filler = new NumberFill(game, tracer);
+            break;
         default:
-            game = new RandomFill(args.sqSize);
+            filler = new RandomFill(game, tracer);
     }
 
-    game->populateGame();
+    filler->populateGame();
 
     game->print();
 

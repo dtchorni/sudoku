@@ -9,10 +9,17 @@
 #include <vector>
 #include <stack>
 
+struct Tile{
+    int x;
+    int y;
+    int val;
+    Tile(int a,int b, int c) : x(a), y(b) , val(c) {}
+};
+
 class Sudoku {
     int size;
     int sq_size;
-    std::stack<std::pair<int,std::pair<int,int>>> history;
+    std::vector<Tile> history;
     std::vector<std::vector<int *>> game;
 
     std::vector<int> generateFilledLine();
@@ -38,6 +45,9 @@ public:
     void print();
 
     bool findAndPlaceNumber(int x, int y, int val); // bool number is already there
+
+    void findAndRemoveNumber(int x, int y, int val, int i);
+
     int getSize() { return size; }
 
     int getSqSize() { return sq_size; }
@@ -48,13 +58,24 @@ public:
 
     bool validateAll();
 
+    bool validatePartial();
+
+    bool validatePartialSingle(std::vector<int *> obj);
+
     std::vector<int> getAvailAt(int, int);
+
+    int getNumAt(int x, int y) { return *(game.at(x).at(y)); }
 
     ~Sudoku() {
         for (auto a : game) {
             for (auto b : a) delete b;
         }
     }
+
+    Tile getLastTile();
+    Tile getFirstTile();
+    unsigned int totalTiles() { return history.size(); }
+    Tile getTileAt(int);
 
 };
 

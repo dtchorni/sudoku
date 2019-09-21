@@ -12,9 +12,12 @@ struct Arguments {
     const int version = 0.1;
     int sqSize = 3;
     int algorithm = 0;
+    int tracer = 0;
+    int stepbacks=1;
     bool verbose = false;
     bool reset = false;
     bool ignore = false;
+    bool trace = true;
 
     void setArgs(int, char **);
 };
